@@ -204,7 +204,7 @@ def preprocess_data(file_name, input_data_txt, input_title_txt):
 		# Calculate frequency distribution
 		word_frequency_dict = nltk.FreqDist(processed_word_list)
 		
-		return Preprocess_Prop(tokenized_sentences, tokenized_word_sentences, processed_word_list,avg_word_count,total_word_count, 
+		return Preprocess_Prop(tokenized_sentences, tokenized_word_sentences, processed_word_list, avg_word_count, total_word_count, 
 								title_words_list, word_frequency_dict)
 
 	except Exception as Ex:
@@ -403,11 +403,11 @@ def word_frequency(file_name, tokenized_word_sentences, word_frequency_dict):
 def numeric_data(file_name, tokenized_word_sentences):
 	method_name = inspect.stack()[0][3]
 	try:
-		process_logger.debug("in "+ method_name+" method")
-		has_numeric = False
+		process_logger.debug("in "+ method_name+" method")		
 		numeric_data_list = []
 		for i, sentence in enumerate(tokenized_word_sentences):
-			for word in sentence:
+			has_numeric = False
+			for word in sentence:				
 				if(word.isnumeric()):
 					has_numeric = True
 					break

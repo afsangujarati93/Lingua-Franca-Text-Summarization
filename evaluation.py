@@ -76,7 +76,7 @@ def evaluate_summary(file_name, input_dir, sent_count, lingua_franca_summary, sh
 		return df_rouge, summarizer_list
 
 	except Exception as Ex:
-		print("Exception occurred in " + method_name + "| Exception:" + str(Ex))
+		error_logger.error("Exception occurred in " + method_name + "| Exception:" + str(Ex))
 		return None
 
 def sumy_summarizers(summarizer_name, summarizer_object, input_doc, sent_count, model_summary, show_summaries, file_name):
@@ -100,7 +100,7 @@ def sumy_summarizers(summarizer_name, summarizer_object, input_doc, sent_count, 
 		return rouge_scores
 
 	except Exception as Ex:
-		print("Exception occurred in " + method_name + "| Exception:" + str(Ex))
+		error_logger.error("Exception occurred in " + method_name + "| Exception:" + str(Ex))
 		return None
 
 def score_reader(rouge_scores_dict):
@@ -114,7 +114,7 @@ def score_reader(rouge_scores_dict):
 		print(df_rouge)
 
 	except Exception as Ex:
-		print("Exception occurred in " + method_name + "| Exception:" + str(Ex))
+		error_logger.error("Exception occurred in " + method_name + "| Exception:" + str(Ex))
 		return None
 
 def process_rouge_scores(rouge_scores_dict):
@@ -150,7 +150,7 @@ def process_rouge_scores(rouge_scores_dict):
 
 		return df_rouge, summarizer_list
 	except Exception as Ex:
-		print("Exception occurred in " + method_name + "| Exception:" + str(Ex))
+		error_logger.error("Exception occurred in " + method_name + "| Exception:" + str(Ex))
 		return None
 
 def print_score_result(rouge_scores_dict, rouge_key):
@@ -173,6 +173,6 @@ def print_score_result(rouge_scores_dict, rouge_key):
 			# print(summarizer_name + "\t" + str(rouge1_f) + "\t" + str(rouge1_p) + "\t" + str(rouge1_r))
 
 	except Exception as Ex:
-		print("Exception occurred in " + method_name + "| Exception:" + str(Ex))
+		error_logger.error("Exception occurred in " + method_name + "| Exception:" + str(Ex))
 		return None
 
