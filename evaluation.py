@@ -39,7 +39,7 @@ def evaluate_summary(file_name, input_dir, sent_count, lingua_franca_summary, sh
 		rouge_scores_dict = {}
 		rouge_scores = rouge_evaluation(lingua_franca_summary, model_summary)
 		rouge_scores_dict[">>LINGUA FRANCA"] = rouge_scores
-		file_summary = open("System Summary/" + file_name + "-" + "LINGUA FRANCA" + ".txt", "w")
+		file_summary = open("Test System Summary/" + file_name + "-" + "LINGUA FRANCA" + ".txt", "w")
 		file_summary.write(lingua_franca_summary)
 
 		LANGUAGE = "english"
