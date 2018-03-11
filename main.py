@@ -73,6 +73,8 @@ def test_summarizer(input_dir, lang_word_path, lang_rel_flag, max_sent_len, show
 	try:
 		process_logger.debug("in "+ method_name +" method")
 		df_r1_f1 = pd.DataFrame()
+		df_r2_f1 = pd.DataFrame()
+		df_rL_f1 = pd.DataFrame()
 		for sent_count in range(1, max_sent_len):
 			print("Running sentence count:" + str(sent_count))
 			
@@ -82,13 +84,19 @@ def test_summarizer(input_dir, lang_word_path, lang_rel_flag, max_sent_len, show
 			# print(df_mean_scores)
 
 			df_r1_f1.insert(loc = len(df_r1_f1.columns), column= sent_count, value = df_mean_scores["R1 F1-score"])
+			df_r2_f1.insert(loc = len(df_r2_f1.columns), column= sent_count, value = df_mean_scores["R2 F1-score"])
+			df_rL_f1.insert(loc = len(df_rL_f1.columns), column= sent_count, value = df_mean_scores["RL F1-score"])
 
 		df_r1_f1 = df_r1_f1.T
+		df_r2_f1 = df_r2_f1.T
+		df_rL_f1 = df_rL_f1.T
 		df_r1_f1.columns = summarizer_list
-		print(df_r1_f1)
-		# sent_range_list = [*range(1,5)]
-		# print(str(sent_range_list))
-		create_score_plot(df_r1_f1)
+		df_r2_f1.columns = summarizer_list
+		df_rL_f1.columns = summarizer_list
+		# print(df_r1_f1)
+		# print(df_r2_f1)
+		# print(df_rL_f1)
+		create_score_plot(df_r1_f1, df_r2_f1, df_rL_f1)
 	except Exception as Ex:
 		error_logger.error("Exception occurred in " + method_name + "| Exception:" + str(Ex))
 		return None
@@ -114,13 +122,18 @@ def create_score_df(scores_df_list, summarizer_list):
 		return None
 
 
-def create_score_plot(df_r1_f1):
+def create_score_plot(df_r1_f1, df_r2_f1, df_rL_f1):
 	method_name = inspect.stack()[0][3]
 	try:
 		process_logger.debug("in "+ method_name +" method")
 		#cumsum adds the previous values and then plots the points, cummulative sum
 		df_r1_f1 = df_r1_f1.cumsum() 
-		df_r1_f1.plot();
+		df_r2_f1 = df_r2_f1.cumsum() 
+		df_rL_f1 = df_rL_f1.cumsum() 
+		df_r1_f1.plot().set_title('Rouge-1 F-1 Scores');
+		df_r2_f1.plot().set_title('Rouge-2 F-1 Scores');
+		df_rL_f1.plot().set_title('Rouge-L F-1 Scores');
+		plt.legend(loc='best')
 		plt.show()
 	except Exception as Ex:
 		error_logger.error("Exception occurred in " + method_name + "| Exception:" + str(Ex))
