@@ -93,7 +93,7 @@ def sumy_summarizers(summarizer_name, summarizer_object, input_doc, sent_count, 
 			print("\n"+ summarizer_name +":")
 			print(output_summary)
 
-		file_summary = open("System Summary/" + file_name + "-" + summarizer_name + ".txt", "w")
+		file_summary = open("Test System Summary/" + file_name + "-" + summarizer_name + ".txt", "w")
 		file_summary.write(output_summary)
 
 		rouge_scores = rouge_evaluation(output_summary, model_summary)

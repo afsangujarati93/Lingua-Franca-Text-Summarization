@@ -38,7 +38,7 @@ class Preprocess_Prop:
     self.title_words_list = title_words_list
     self.word_frequency_dict = word_frequency_dict
 
-def summarization_initializer(input_dir, sent_count, lang_word_path, lang_rel_flag, show_summaries, summary_case):
+def summarization_initializer(input_dir, sent_count, lang_word_path, lang_rel_flag, show_summaries, summary_case, lang_rel_file = ''):
 	method_name = inspect.stack()[0][3]
 	try:
 		process_logger.debug("in "+ method_name +" method")
@@ -57,6 +57,8 @@ def summarization_initializer(input_dir, sent_count, lang_word_path, lang_rel_fl
 				input_data_file = open(input_dir + file, "r", encoding="utf8") 
 				input_data_txt = input_data_file.read()
 
+				print("after reading: " + file)
+
 				title_file_path = input_dir + input_file_name +'.title'
 				if os.path.isfile(title_file_path):
 					process_logger.info("Title file name:" + str(title_file_path))
@@ -68,13 +70,13 @@ def summarization_initializer(input_dir, sent_count, lang_word_path, lang_rel_fl
 					input_title_txt = ""
 
 				lingua_franca_summary = summarization_process(input_file_name, input_data_txt, input_title_txt, sent_count, lang_word_path, lang_rel_flag)
-					
+				summarizer_list = []
 				if summary_case == 1:
 					df_rouge, summarizer_list = evaluate_summary(input_file_name, input_dir, sent_count, lingua_franca_summary, show_summaries)
 					scores_df_list.append(df_rouge)
 				elif summary_case == 2:
-					print("\nSystem Summary:\n" + str(lingua_franca_summary))
-					file_summary = open("System Summary/" + file_name + "-" + "LINGUA FRANCA" + ".txt", "w")
+					# print("\nSystem Summary:\n" + str(lingua_franca_summary))
+					file_summary = open("System Summary/" + input_file_name + "-" + lang_rel_file + ".txt", "w")
 					file_summary.write(lingua_franca_summary)
 				else: return
 

@@ -41,6 +41,7 @@ def main():
 		
 		lang_rel_flag = input("Use language relevance factors ? (y/n): ").lower()
 		lang_word_path = ''
+		lang_rel_file = ''
 		if lang_rel_flag == "y":
 			lang_rel_file = input("Enter language relevant documents file name (without csv extension): ")
 			lang_word_path = lang_word_dir + lang_rel_file	
@@ -58,9 +59,9 @@ def main():
 
 		print("show summaries:" + str(show_summaries))
 		if summary_case == 1:
-			test_summarizer(input_dir, lang_word_path, lang_rel_flag, max_sent_len, show_summaries, summary_case)
+			test_summarizer(input_dir, lang_word_path, lang_rel_flag, max_sent_len, show_summaries, summary_case, lang_rel_file)
 		elif summary_case == 2:
-			summarization_initializer(input_dir, sent_count, lang_word_path, lang_rel_flag, show_summaries, summary_case)
+			summarization_initializer(input_dir, sent_count, lang_word_path, lang_rel_flag, show_summaries, summary_case, lang_rel_file)
 			
 
 		print("\n====================END OF PROGRAM=========================\n")
@@ -68,13 +69,24 @@ def main():
 		error_logger.error("Exception occurred in " + method_name + "| Exception:" + str(Ex))
 		return None
 
-def test_summarizer(input_dir, lang_word_path, lang_rel_flag, max_sent_len, show_summaries, summary_case):
+def test_summarizer(input_dir, lang_word_path, lang_rel_flag, max_sent_len, show_summaries, summary_case, lang_word_file):
 	method_name = inspect.stack()[0][3]
 	try:
 		process_logger.debug("in "+ method_name +" method")
+
 		df_r1_f1 = pd.DataFrame()
 		df_r2_f1 = pd.DataFrame()
 		df_rL_f1 = pd.DataFrame()
+
+		df_r1_precision = pd.DataFrame()
+		df_r1_recall = pd.DataFrame()
+
+		df_r2_precision = pd.DataFrame()
+		df_r2_recall = pd.DataFrame()
+
+		df_rL_precision = pd.DataFrame()
+		df_rL_recall = pd.DataFrame()
+
 		for sent_count in range(1, max_sent_len):
 			print("Running sentence count:" + str(sent_count))
 			
@@ -87,16 +99,63 @@ def test_summarizer(input_dir, lang_word_path, lang_rel_flag, max_sent_len, show
 			df_r2_f1.insert(loc = len(df_r2_f1.columns), column= sent_count, value = df_mean_scores["R2 F1-score"])
 			df_rL_f1.insert(loc = len(df_rL_f1.columns), column= sent_count, value = df_mean_scores["RL F1-score"])
 
+			df_r1_precision.insert(loc = len(df_r1_precision.columns), column= sent_count, value = df_mean_scores["R1 Precision"])
+			df_r1_recall.insert(loc = len(df_r1_recall.columns), column= sent_count, value = df_mean_scores["R1  Recall"])
+
+			df_r2_precision.insert(loc = len(df_r2_precision.columns), column= sent_count, value = df_mean_scores["R2 Precision"])
+			df_r2_recall.insert(loc = len(df_r2_recall.columns), column= sent_count, value = df_mean_scores["R2  Recall"])
+
+			df_rL_precision.insert(loc = len(df_rL_precision.columns), column= sent_count, value = df_mean_scores["RL Precision"])
+			df_rL_recall.insert(loc = len(df_rL_recall.columns), column= sent_count, value = df_mean_scores["RL  Recall"])
+		
+
 		df_r1_f1 = df_r1_f1.T
 		df_r2_f1 = df_r2_f1.T
 		df_rL_f1 = df_rL_f1.T
+
+		df_r1_precision = df_r1_precision.T
+		df_r1_recall = df_r1_recall.T
+
+		df_r2_precision = df_r2_precision.T
+		df_r2_recall = df_r2_recall.T
+
+		df_rL_precision = df_rL_precision.T
+		df_rL_recall = df_rL_recall.T
+
+
 		df_r1_f1.columns = summarizer_list
 		df_r2_f1.columns = summarizer_list
 		df_rL_f1.columns = summarizer_list
+
+		df_r1_precision.columns = summarizer_list
+		df_r1_recall.columns = summarizer_list
+
+		df_r2_precision.columns = summarizer_list
+		df_r2_recall.columns = summarizer_list
+
+		df_rL_precision.columns = summarizer_list
+		df_rL_recall.columns = summarizer_list
+
+
 		# print(df_r1_f1)
 		# print(df_r2_f1)
 		# print(df_rL_f1)
-		create_score_plot(df_r1_f1, df_r2_f1, df_rL_f1)
+
+
+		df_r1_f1.to_csv("Final Results/r1_f1_score_" + lang_word_file +".csv")
+		df_r2_f1.to_csv("Final Results/r2_f1_score_" + lang_word_file +".csv")
+		df_rL_f1.to_csv("Final Results/rL_f1_score_" + lang_word_file +".csv")
+
+		df_r1_precision.to_csv("Final Results/df_r1_precision_" + lang_word_file +".csv")
+		df_r1_recall.to_csv("Final Results/df_r1_recall_" + lang_word_file +".csv")
+
+		df_r2_precision.to_csv("Final Results/df_r2_precision_" + lang_word_file +".csv")
+		df_r2_recall.to_csv("Final Results/df_r2_recall_" + lang_word_file +".csv")
+
+		df_rL_precision.to_csv("Final Results/df_rL_precision_" + lang_word_file +".csv")
+		df_rL_recall.to_csv("Final Results/df_rL_recall_" + lang_word_file +".csv")
+		
+		create_score_plot(df_r1_f1, df_r2_f1, df_rL_f1, lang_word_file)
 	except Exception as Ex:
 		error_logger.error("Exception occurred in " + method_name + "| Exception:" + str(Ex))
 		return None
@@ -116,13 +175,14 @@ def create_score_df(scores_df_list, summarizer_list):
 		df_mean_scores.insert(loc=0, column='Summarizers Name', value = summarizer_list)
 		pd.set_option('display.expand_frame_repr', False)
 
+		# print(df_mean_scores)
 		return df_mean_scores
 	except Exception as Ex:
 		error_logger.error("Exception occurred in " + method_name + "| Exception:" + str(Ex))
 		return None
 
 
-def create_score_plot(df_r1_f1, df_r2_f1, df_rL_f1):
+def create_score_plot(df_r1_f1, df_r2_f1, df_rL_f1, lang_word_file):
 	method_name = inspect.stack()[0][3]
 	try:
 		process_logger.debug("in "+ method_name +" method")
@@ -130,11 +190,38 @@ def create_score_plot(df_r1_f1, df_r2_f1, df_rL_f1):
 		df_r1_f1 = df_r1_f1.cumsum() 
 		df_r2_f1 = df_r2_f1.cumsum() 
 		df_rL_f1 = df_rL_f1.cumsum() 
-		df_r1_f1.plot().set_title('Rouge-1 F-1 Scores');
-		df_r2_f1.plot().set_title('Rouge-2 F-1 Scores');
-		df_rL_f1.plot().set_title('Rouge-L F-1 Scores');
+
 		plt.legend(loc='best')
-		plt.show()
+		
+		df_r1_plot = df_r1_f1.plot();
+		df_r1_plot.set_title('Rouge-1 F-1 Scores');
+		df_r1_plot.set_xlabel('Sentence Length')
+		df_r1_plot.set_ylabel('F-1 Score')
+		# plt.show()
+		# plt.cla()
+		# plt.clf()
+		# plt.close()
+		fig = plt.gcf()
+		fig.savefig("Final Results/r1_f1_score_" + lang_word_file +".png")
+
+
+		df_r2_f1 = df_r2_f1.plot();
+		df_r2_f1.set_title('Rouge-2 F-1 Scores');
+		df_r2_f1.set_xlabel('Sentence Length')
+		df_r2_f1.set_ylabel('F-1 Score')
+		fig = plt.gcf()
+		fig.savefig("Final Results/r2_f1_score_" + lang_word_file +".png")
+
+
+		df_rL_plot = df_rL_f1.plot()
+		df_rL_plot.set_title('Rouge-L F-1 Scores');
+		df_rL_plot.set_xlabel('Sentence Length')
+		df_rL_plot.set_ylabel('F-1 Score')
+		fig = plt.gcf()
+		fig.savefig("Final Results/rL_f1_score_" + lang_word_file +".png")
+		
+		# plt.show()
+
 	except Exception as Ex:
 		error_logger.error("Exception occurred in " + method_name + "| Exception:" + str(Ex))
 		return None
