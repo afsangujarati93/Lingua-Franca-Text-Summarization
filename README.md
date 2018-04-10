@@ -1,6 +1,8 @@
+Creating Summaries considering user's origin and interest.
+
 <h1 id="lingua-franca-text-summarization">Lingua-Franca-Text-Summarization</h1>
 <p>It’s an extrative text summarization technique that creates summaries considering the factor of users origin.<br>
-A bag of words(BOW) is created using BBC Sports and another bag using TOI Cricket. The sentence is compared with the selected BOW to give an additional score for user’s origin.</p>
+A bag of words(BOW) is created using BBC Sports and another bag using TOI Cricket. The sentence is compared with the selected BOW to give an additional score for user’s origin. The summaries are eveluated using Rouge and benchmakred against other system summarizers.</p>
 <h2 id="getting-started">Getting Started</h2>
 <p>Clone the project and make sure you have installed all the necessary dependencies.<br>
 Necessary dependencies include, installing the required python modules and having data in the necessary folder.</p>
