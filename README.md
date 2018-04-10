@@ -18,7 +18,7 @@ Before explaining what goes in which folder I will explain the basic execution:
 
 Please refer below to understand the folders usage.
 Folder Name	|	Folder Description
---------------------------	|	-------------------------------------------------------------------------------------------------
+-------------	|	-------------
 Final Input Data	|	Folder with all the input txt file and their respective title. The title file has to be with .title extension
 Final Results	|	Final results i.e. csv files of precision, recall and f1-score along with the graphs while testing the summarizer
 Language Relvance	|	Contains the script that converts json (which was scraped from the news websites) to csv file of all comma separated words
@@ -29,17 +29,20 @@ System Summary	|	Output summary if you simple decide to generate summaries.
 Test Input Data	|	All the input summary that would be used for testing along with their model summaries and title (if exists)
 Test System Summary	|	Output summary in case of testing.
 
+
 ### And coding style tests
 
 In case if you plan to contribute please consider the follow things:
 * Make sure one function only does one thing
 * use the template of method given below: 
+code(
 method_name = inspect.stack()[0][3]
 try:
 process_logger.debug("in "+ method_name +" method")
 except Exception as Ex:
  	error_logger.error("Exception occurred in " + method_name + "| Exception:" + str(Ex))
  	return None
+  )
 * if something's complicated, leave a comment. 
 
 
