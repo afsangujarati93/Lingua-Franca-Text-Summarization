@@ -95,5 +95,6 @@ except Exception as Ex:
 <ul>
 <li>We referred the work done by <a href="https://ieeexplore.ieee.org/document/7045732/">https://ieeexplore.ieee.org/document/7045732/</a> by making modifications and adding our feature on top of it</li>
 <li>Paul Tardy (<a href="https://github.com/pltrdy">https://github.com/pltrdy</a>) helped with the queries regarding the rouge implementation.</li>
+<li><a href="http://README.md">README.md</a> template published using (<a href="https://stackedit.io/app#">https://stackedit.io/app#</a>) – Cheers</li>
 </ul>
 
