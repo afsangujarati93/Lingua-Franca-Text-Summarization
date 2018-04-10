@@ -57,7 +57,7 @@ def summarization_initializer(input_dir, sent_count, lang_word_path, lang_rel_fl
 				input_data_file = open(input_dir + file, "r", encoding="utf8") 
 				input_data_txt = input_data_file.read()
 
-				print("after reading: " + file)
+				# print("after reading: " + file)
 
 				title_file_path = input_dir + input_file_name +'.title'
 				if os.path.isfile(title_file_path):
