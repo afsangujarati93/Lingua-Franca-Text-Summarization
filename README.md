@@ -1,8 +1,3 @@
----
-
-
----
-
 <h1 id="lingua-franca-text-summarization">Lingua-Franca-Text-Summarization</h1>
 <p>It’s an extrative text summarization technique that creates summaries considering the factor of users origin.<br>
 A bag of words(BOW) is created using BBC Sports and another bag using TOI Cricket. The sentence is compared with the selected BOW to give an additional score for user’s origin.</p>
