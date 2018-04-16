@@ -88,8 +88,8 @@ except Exception as Ex:
 <p><em>(Names are mentioned in lexical order)</em></p>
 <ul>
 <li><strong>Afsan Gujarati</strong> - <em>(<a href="mailto:afsan.gujarati@gmail.com">afsan.gujarati@gmail.com</a>)</em></li>
-<li><strong>Hari Ramesh</strong></li>
-<li><strong>Stacey Taylor</strong></li>
+<li><strong>Hari Ramesh</strong>  - <em>(<a href="mailto:hariharanramesh10@gmail.com">hariharanramesh10@gmail.com</a>)</em></li>
+<li><strong>Stacey Taylor</strong> - <em>(<a href="mailto:st712976@dal.ca">st712976@dal.ca</a>)</em></li>
 </ul>
 <h2 id="acknowledgments">Acknowledgments</h2>
 <ul>
